@@ -1,0 +1,13 @@
+BATCH_SIZE = 16
+LR = 0.0002
+EPOCHS = 100
+USE_GPU = True
+NUM_WORKERS = 4
+MOMENTUM = 0.9
+STEP_SIZE = 7
+GAMMA = 0.1
+DELTA = 1.25
+net12_H = 55
+net12_W = 74
+net3_H = 109
+net3_W = 147

@@ -1,0 +1,6 @@
+data/*
+.idea/*
+checkpoints
+.vscode/
+__pycache__/
+*.pyc
