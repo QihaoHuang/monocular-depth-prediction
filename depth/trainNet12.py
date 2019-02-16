@@ -52,7 +52,7 @@ def train_model(model, criterion, optimizer, scheduler, num_epochs, delta):
 
         for phase in ['train', 'val']:
             if phase == 'train':
-                scheduler.step()
+                # scheduler.step()
                 model.train(True)
             if phase == 'val':
                 continue

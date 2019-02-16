@@ -11,7 +11,7 @@ class Scale12(nn.Module):
         self.N = N
         self.layer1_1 = nn.Sequential(
             nn.Conv2d(3, 64, kernel_size=3, stride=1),
-            # nn.BatchNorm2d(64),
+            # nn.BatchNorm2d(64), 
             nn.ReLU(),
             nn.Conv2d(64, 64, kernel_size=3, stride=1),
             # nn.BatchNorm2d(64),
@@ -97,6 +97,11 @@ class Scale12(nn.Module):
         )
 
         self.layer2_4 = nn.Sequential(
+            nn.Conv2d(64, 64, kernel_size=5, stride=1, padding=2),
+            nn.ReLU()
+        )
+
+        self.layer2_5 = nn.Sequential(
             nn.Conv2d(64, 1, kernel_size=5, stride=1, padding=2),
             nn.ReLU()
         )
@@ -118,7 +123,9 @@ class Scale12(nn.Module):
         out1 = self.layer1_5(out1)
         # print(out1.size())
         # out1 = Nx512x9x7
+        # print(out1.size(0))
         _features = out1.view(out1.size(0), -1)
+        # print(_features)
         # _features = Nx32256(512*9*7)
         # print(_features.size())
         out1 = self.layer1_6(_features)
@@ -126,6 +133,7 @@ class Scale12(nn.Module):
         out1 = self.layer1_7(out1)
         # out1 = 17024(64*19*14)
         out1 = out1.view(self.N, 64, 19, 14)
+        # print(out1.size())
         # reshape Nx17024 to Nx64x19x14
         m1 = nn.Upsample(scale_factor=4, mode='bilinear')
         out1 = m1(out1)
@@ -148,8 +156,9 @@ class Scale12(nn.Module):
         # out2 = Nx64x74x55
         out2 = self.layer2_4(out2)
         # print(out2.size())
-        # out2 = Nx1x74x55
-
+        # out2 = Nx64x74x55
+        out2 = self.layer2_5(out2)
+        # out2 = Nx8x74x55
         return out2
 
 
@@ -214,7 +223,7 @@ if __name__ == "__main__":
     print("-" * 20)
     net12 = Scale12(N)
     net12.eval()
-    # print(net12)
+    print(net12)
 
     print("-" * 20)
     # 测试net2
